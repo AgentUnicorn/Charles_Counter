@@ -1,24 +1,49 @@
-import React from 'react';
-import logo from './logo.svg';
+import React,{useState} from 'react';
 import './App.css';
+import { useSelector, useDispatch } from 'react-redux';
+import Box from './components/Box'
 
 function App() {
+  let countNum = useSelector(state => state.countNum);
+
+  let dispatch = useDispatch();
+
+  let increasementNum = () => {
+    dispatch({type:'INCREASEMENT', payload:{id:countNum, name:'Charles'}})
+  }
+
+  let decreasementNum = () => {
+    dispatch({type:'DECREASEMENT', payload:{id:countNum, name:'Charles'}})
+  }
+
+  let resetNum = () => {
+    dispatch({type:'RESET', payload:{id:countNum, name:'Charles'}})
+  }
+
+  let changeColor = (e) => {
+    let background = e.target.value
+    console.log("color", background)
+    dispatch({type: 'CHANGE_BG',payload:background})
+  }
+
+  let boxGenerateByNum = (e) => {
+    let boxNum = e.target.value
+    console.log("number of boxes",boxNum)
+    dispatch({type: 'BOX_NUM', payload:{id:countNum, name:'Charles', box: boxNum}})
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+
+      <h2>{countNum}</h2>
+      <button onClick={()=>increasementNum()}>Increasement</button>
+      <button onClick={()=>decreasementNum()}>Decreasement</button>
+      <button onClick={()=>resetNum()}>Reset</button>
+      <input type="text" placeholder="Background color" onChange={changeColor}></input>
+      <input type="number" placeholder="Number of boxes" onChange={boxGenerateByNum}></input>
+      <div>
+        <Box/>
+      </div>
     </div>
   );
 }
